@@ -1,6 +1,6 @@
 GO ?= go
 
-MAIN = cmd/main.go
+MAIN = main.go
 BIN_DIR = ./bin
 CLI_DIR = ${BIN_DIR}/aws-lambda-connector
 
