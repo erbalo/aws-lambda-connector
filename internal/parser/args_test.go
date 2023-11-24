@@ -16,7 +16,27 @@ type argsTestCase struct {
 	expectErr      bool
 }
 
+func createTempFileWithContent(t *testing.T, content string) string {
+	tmpfile, err := os.CreateTemp("", "example")
+	if err != nil {
+		t.Fatalf("Failed to create temp file: %v", err)
+	}
+
+	if _, err := tmpfile.Write([]byte(content)); err != nil {
+		t.Fatalf("Failed to write to temp file: %v", err)
+	}
+	if err := tmpfile.Close(); err != nil {
+		t.Fatalf("Failed to close temp file: %v", err)
+	}
+
+	return tmpfile.Name()
+}
+
 func TestParse(t *testing.T) {
+	// Create a temporary file for testing event file reading
+	eventFilePath := createTempFileWithContent(t, `{"event":"data"}`)
+	defer os.Remove(eventFilePath) // Clean up the file afterwards
+
 	tests := []argsTestCase{
 		{
 			name: "Default Values Test",
@@ -67,6 +87,16 @@ func TestParse(t *testing.T) {
 				Payload:  []byte("{}"),
 				ShowHelp: true,
 			}, // When showing help, default configuration is expected
+			expectErr: false,
+		},
+		{
+			name: "Event File Test",
+			args: []string{"cmd", "-e", eventFilePath},
+			expectedConfig: &Configuration{
+				Address: "localhost:8080",
+				Timeout: 30 * time.Second,
+				Payload: []byte(`{"event":"data"}`),
+			},
 			expectErr: false,
 		},
 	}
