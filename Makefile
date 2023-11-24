@@ -36,7 +36,7 @@ EXEC = ${CLI_DIR}${OS_SUFFIX}
 
 all:
 	$(MAKE) dependencies
-	$(MAKE) run
+	$(MAKE) build
 
 dependencies:
 	$(GO) mod download
@@ -62,4 +62,4 @@ clean:
 	$(GO) clean
 	rm -rf $(BIN_DIR)
 
-.PHONY: all dependencies build run clean
+.PHONY: all dependencies build test clean
