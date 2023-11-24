@@ -18,7 +18,7 @@ type configurationTestCase struct {
 func TestConfiguration(t *testing.T) {
 	tests := []configurationTestCase{
 		{
-			name:             "Default Values",
+			name:             "Default values",
 			config:           Configuration{},
 			expectedAddr:     "",
 			expectedPayload:  "",
@@ -27,7 +27,7 @@ func TestConfiguration(t *testing.T) {
 			expectError:      false,
 		},
 		{
-			name:             "Custom Values",
+			name:             "Custom values",
 			config:           Configuration{"localhost:8080", []byte("test payload"), 5 * time.Second, true},
 			expectedAddr:     "localhost:8080",
 			expectedPayload:  "test payload",
@@ -37,12 +37,12 @@ func TestConfiguration(t *testing.T) {
 		},
 		// Hypothetical error test cases
 		{
-			name:        "Invalid Address Format",
+			name:        "Invalid address format",
 			config:      Configuration{"invalid_address", nil, 0, false},
 			expectError: true,
 		},
 		{
-			name:        "Negative Timeout",
+			name:        "Negative timeout",
 			config:      Configuration{"localhost:8080", nil, -5 * time.Second, false},
 			expectError: true,
 		},

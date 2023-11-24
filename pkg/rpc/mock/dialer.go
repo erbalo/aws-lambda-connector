@@ -10,6 +10,7 @@ import (
 // MockRPCClient mocks an rpc.Client
 type MockRPCClient struct {
 	ResponsePayload []byte
+	ResponseErrMsg  string // Add this field to simulate response error
 	Err             error
 }
 
@@ -20,6 +21,12 @@ func (m *MockRPCClient) Call(serviceMethod string, args interface{}, reply inter
 
 	response := &messages.InvokeResponse{
 		Payload: m.ResponsePayload,
+	}
+
+	if m.ResponseErrMsg != "" {
+		response.Error = &messages.InvokeResponse_Error{
+			Message: m.ResponseErrMsg,
+		}
 	}
 
 	*reply.(*messages.InvokeResponse) = *response

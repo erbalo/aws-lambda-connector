@@ -21,7 +21,7 @@ type testCase struct {
 func TestLambdaClient_Invoke(t *testing.T) {
 	testCases := []testCase{
 		{
-			name:          "SuccessWithPayload",
+			name:          "Success with payload",
 			mockRPCClient: &rpcMock.MockRPCClient{ResponsePayload: []byte("payload")},
 			config: parser.Configuration{
 				Address: "test-address",
@@ -32,8 +32,19 @@ func TestLambdaClient_Invoke(t *testing.T) {
 			expectedError:  false,
 		},
 		{
-			name:          "FailureToDial",
+			name:          "Failure to dial",
 			mockRPCClient: &rpcMock.MockRPCClient{Err: errors.New("failed to dial")},
+			config: parser.Configuration{
+				Address: "test-address",
+				Payload: []byte("test-payload"),
+				Timeout: 1 * time.Minute,
+			},
+			expectedResult: nil,
+			expectedError:  true,
+		},
+		{
+			name:          "Lambda function returned error",
+			mockRPCClient: &rpcMock.MockRPCClient{ResponseErrMsg: "Lambda execution error"},
 			config: parser.Configuration{
 				Address: "test-address",
 				Payload: []byte("test-payload"),

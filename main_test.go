@@ -30,7 +30,7 @@ type argsTestCase struct {
 func TestRun(t *testing.T) {
 	testCases := []runTestCase{
 		{
-			name:           "SuccessfulInvocation",
+			name:           "Successful invocation",
 			args:           []string{"cmd", "-a", "localhost:8080", "-t", "5s"},
 			mockRPCClient:  &rpcMock.MockRPCClient{ResponsePayload: []byte("success")},
 			shouldFailDial: false,
@@ -38,7 +38,7 @@ func TestRun(t *testing.T) {
 			expectedError:  false,
 		},
 		{
-			name:           "FailureToDial",
+			name:           "Failure to dial",
 			args:           []string{"cmd", "--invalid-arg"},
 			mockRPCClient:  &rpcMock.MockRPCClient{},
 			shouldFailDial: true,
@@ -46,7 +46,7 @@ func TestRun(t *testing.T) {
 			expectedError:  true,
 		},
 		{
-			name:           "FailureInLambdaInvocation",
+			name:           "Failure in lambda invocation",
 			args:           []string{"cmd", "-a", "localhost:8080", "-t", "5s"},
 			mockRPCClient:  &rpcMock.MockRPCClient{Err: errors.New("lambda error")},
 			shouldFailDial: false,
@@ -91,19 +91,19 @@ func runWrapper(dialer *rpcMock.MockRPCDialer) (string, error) {
 func TestHandleArgs(t *testing.T) {
 	testCases := []argsTestCase{
 		{
-			name:          "ValidArgs",
+			name:          "Valid args",
 			args:          []string{"cmd", "-a", "localhost:8080", "-t", "5s"},
 			expectedError: false,
 			expectedExit:  0,
 		},
 		{
-			name:          "InvalidArgs",
+			name:          "Invalid args",
 			args:          []string{"cmd", "--invalid-arg"},
 			expectedError: true,
 			expectedExit:  1,
 		},
 		{
-			name:          "ShowHelp",
+			name:          "Show help",
 			args:          []string{"cmd", "--help"},
 			expectedError: false,
 			expectedExit:  0,

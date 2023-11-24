@@ -39,7 +39,7 @@ func TestParse(t *testing.T) {
 
 	tests := []argsTestCase{
 		{
-			name: "Default Values Test",
+			name: "Default values",
 			args: []string{"cmd"},
 			expectedConfig: &Configuration{
 				Address: "localhost:8080",
@@ -49,7 +49,7 @@ func TestParse(t *testing.T) {
 			expectErr: false,
 		},
 		{
-			name: "Custom Address Test",
+			name: "Custom address",
 			args: []string{"cmd", "-a", "127.0.0.1:9000"},
 			expectedConfig: &Configuration{
 				Address: "127.0.0.1:9000",
@@ -59,7 +59,7 @@ func TestParse(t *testing.T) {
 			expectErr: false,
 		},
 		{
-			name: "Custom Data Test",
+			name: "Custom data",
 			args: []string{"cmd", "-d", "{\"key\":\"value\"}"},
 			expectedConfig: &Configuration{
 				Address: "localhost:8080",
@@ -69,7 +69,7 @@ func TestParse(t *testing.T) {
 			expectErr: false,
 		},
 		{
-			name: "Custom Timeout Test",
+			name: "Custom timeout",
 			args: []string{"cmd", "-t", "1m"},
 			expectedConfig: &Configuration{
 				Address: "localhost:8080",
@@ -79,7 +79,7 @@ func TestParse(t *testing.T) {
 			expectErr: false,
 		},
 		{
-			name: "Show Help Test",
+			name: "Show help",
 			args: []string{"cmd", "-h"},
 			expectedConfig: &Configuration{
 				Address:  "localhost:8080",
@@ -90,7 +90,7 @@ func TestParse(t *testing.T) {
 			expectErr: false,
 		},
 		{
-			name: "Event File Test",
+			name: "Event file",
 			args: []string{"cmd", "-e", eventFilePath},
 			expectedConfig: &Configuration{
 				Address: "localhost:8080",
