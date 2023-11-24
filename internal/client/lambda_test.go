@@ -21,14 +21,14 @@ type testCase struct {
 func TestLambdaClient_Invoke(t *testing.T) {
 	testCases := []testCase{
 		{
-			name:          "SuccessWithErickPayload",
-			mockRPCClient: &rpcMock.MockRPCClient{ResponsePayload: []byte("erick")},
+			name:          "SuccessWithPayload",
+			mockRPCClient: &rpcMock.MockRPCClient{ResponsePayload: []byte("payload")},
 			config: parser.Configuration{
 				Address: "test-address",
 				Payload: []byte("test-payload"),
 				Timeout: 1 * time.Minute,
 			},
-			expectedResult: []byte("erick"),
+			expectedResult: []byte("payload"),
 			expectedError:  false,
 		},
 		{

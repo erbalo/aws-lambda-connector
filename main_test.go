@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type mainTestCase struct {
+type runTestCase struct {
 	name           string
 	args           []string
 	mockRPCClient  *rpcMock.MockRPCClient
@@ -20,8 +20,15 @@ type mainTestCase struct {
 	expectedError  bool
 }
 
+type argsTestCase struct {
+	name          string
+	args          []string
+	expectedError bool
+	expectedExit  int
+}
+
 func TestRun(t *testing.T) {
-	testCases := []mainTestCase{
+	testCases := []runTestCase{
 		{
 			name:           "SuccessfulInvocation",
 			args:           []string{"cmd", "-a", "localhost:8080", "-t", "5s"},
@@ -79,4 +86,40 @@ func runWrapper(dialer *rpcMock.MockRPCDialer) (string, error) {
 	}
 
 	return string(res), nil
+}
+
+func TestHandleArgs(t *testing.T) {
+	testCases := []argsTestCase{
+		{
+			name:          "ValidArgs",
+			args:          []string{"cmd", "-a", "localhost:8080", "-t", "5s"},
+			expectedError: false,
+			expectedExit:  0,
+		},
+		{
+			name:          "InvalidArgs",
+			args:          []string{"cmd", "--invalid-arg"},
+			expectedError: true,
+			expectedExit:  1,
+		},
+		{
+			name:          "ShowHelp",
+			args:          []string{"cmd", "--help"},
+			expectedError: false,
+			expectedExit:  0,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			os.Args = tc.args
+			_, exitCode := handleArgs()
+
+			if tc.expectedError {
+				assert.NotEqual(t, 0, exitCode)
+			} else {
+				assert.Equal(t, tc.expectedExit, exitCode)
+			}
+		})
+	}
 }
