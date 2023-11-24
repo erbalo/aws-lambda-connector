@@ -2,19 +2,23 @@ package client
 
 import (
 	"fmt"
-	"net/rpc"
 	"time"
 
 	"github.com/aws/aws-lambda-go/lambda/messages"
 	"github.com/erbalo/aws-lambda-connector/internal/parser"
+	"github.com/erbalo/aws-lambda-connector/internal/rpc"
 )
 
 type LambdaClient struct {
 	configuration parser.Configuration
+	dialer        rpc.Dialer
 }
 
-func New(configuration parser.Configuration) *LambdaClient {
-	return &LambdaClient{configuration}
+func NewLambda(configuration parser.Configuration, dialer rpc.Dialer) *LambdaClient {
+	return &LambdaClient{
+		configuration,
+		dialer,
+	}
 }
 
 func (client LambdaClient) Invoke() ([]byte, error) {
@@ -24,7 +28,7 @@ func (client LambdaClient) Invoke() ([]byte, error) {
 		Nanos:   int64(deadline.Nanosecond()),
 	}}
 
-	invoker, err := rpc.Dial("tcp", client.configuration.Address)
+	invoker, err := client.dialer.Dial("tcp", client.configuration.Address)
 	if err != nil {
 		return nil, err
 	}

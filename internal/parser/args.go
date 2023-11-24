@@ -21,7 +21,7 @@ func Parse(args []string) (*Configuration, error) {
 	fs.DurationVar(&config.Timeout, "t", 30*time.Second, "timeout handler execution")
 
 	fs.BoolVar(&config.ShowHelp, "h", false, "show help")
-	fs.BoolVar(&config.ShowHelp, "help", false, "")
+	fs.BoolVar(&config.ShowHelp, "help", false, "show help")
 
 	err := fs.Parse(args[1:])
 	if err != nil {
@@ -44,9 +44,9 @@ func Parse(args []string) (*Configuration, error) {
 func ShowHelp() {
 	fmt.Println(`Usage:
     aws-lambda-connector [flags]
-        -e, --event     path to the event JSON
-        -d, --data      data passed to the function, in JSON format, defaults to "{}"
-        -a, --address   the address of your local running function, defaults to localhost:8080
-        -t, --timeout   timeout for your handler execution, expressed as a duration, defaults to 30s
-        -h, --help      show help`)
+        -e  path to the event JSON
+        -d  data passed to the function, in JSON format, defaults to "{}"
+        -a  the address of your local running function, defaults to localhost:8080
+        -t  timeout for your handler execution, expressed as a duration, defaults to 30s
+        -h, --help  show help`)
 }

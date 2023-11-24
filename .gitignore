@@ -9,12 +9,16 @@
 *.so
 *.dylib
 
+# Coverage
+/coverage
+
 # Intellij IDEA
 .idea
 
 # Temporal
 *.swp
 /tmp
+.DS_Store
 
 # Crash log files
 crash.log
