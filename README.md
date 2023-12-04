@@ -1,6 +1,6 @@
 # aws-lambda-connector
 
-![coverage](https://codecov.io/gh/erbalo/aws-lambda-connector/branch/main/graph/badge.svg) ![version](https://img.shields.io/badge/version-old_version-blue)
+![coverage](https://codecov.io/gh/erbalo/aws-lambda-connector/branch/main/graph/badge.svg) ![version](https://img.shields.io/badge/version-v1.2.4-blue)
 
 
 The idea was born with the intention of not using AWS sam or docker to be able to execute a lambda made in Golang locally and invoke it, which allows a more agile and efficient development.
