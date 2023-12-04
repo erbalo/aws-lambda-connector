@@ -32,6 +32,7 @@ jobs:
       id: tag-version
       run: |
         TAG_VERSION=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null || echo "untagged")
+        echo "TAG_VERSION=$TAG_VERSION"
         echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
 
     - name: Update badge
