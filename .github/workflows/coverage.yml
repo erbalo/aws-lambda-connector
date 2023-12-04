@@ -28,9 +28,11 @@ jobs:
         file: ./coverage/profile.out
         fail_ci_if_error: true
 
-    - name: Get the current tag
+    - name: Get the current tag or set default
       id: tag-version
-      run: echo "TAG_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_ENV
+      run: |
+        TAG_VERSION=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null || echo "untagged")
+        echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
 
     - name: Update badge
       run: |
@@ -40,5 +42,10 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -am "Update badge version to ${{ env.TAG_VERSION }}"
-        git push
+        if ! git diff --quiet; then
+          git add README.md
+          git commit -am "Update badge version to ${{ env.TAG_VERSION }}"
+          git push
+        else
+          echo "No changes to commit"
+        fi
