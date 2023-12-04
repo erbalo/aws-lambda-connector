@@ -30,7 +30,7 @@ jobs:
 
     - name: Get the current tag
       id: tag-version
-      run: echo "TAG_VERSION=$(git describe --tags)" >> $GITHUB_ENV
+      run: echo "TAG_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_ENV
 
     - name: Update badge
       run: |
