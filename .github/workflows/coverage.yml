@@ -18,6 +18,8 @@ jobs:
 
     - name: Check out code
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Fetches all history for all branches and tags
 
     - name: Test with coverage
       run: make test
@@ -32,11 +34,13 @@ jobs:
       id: tag-version
       run: |
         TAG_VERSION=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null || echo "untagged")
+        echo "TAG_VERSION=$TAG_VERSION"
         echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
 
     - name: Update badge
       run: |
         sed -i "s/old-version/${{ env.TAG_VERSION }}/g" README.md
+        echo "Badge updated in README with ${TAG_VERSION}"
 
     - name: Commit and Push
       run: |
