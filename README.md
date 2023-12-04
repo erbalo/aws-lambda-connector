@@ -57,3 +57,9 @@ Linux/MacOS example:
 ```shell
 ./bin/aws-lambda-connector --help
 ```
+
+## Usage
+
+To use the connector you can execute the following commands:
+
+![usage](connector-usage.jpg)

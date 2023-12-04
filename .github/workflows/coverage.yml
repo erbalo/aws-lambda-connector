@@ -27,3 +27,18 @@ jobs:
       with:
         file: ./coverage/profile.out
         fail_ci_if_error: true
+
+    - name: Get the current tag
+      id: tag-version
+      run: echo "TAG_VERSION=$(git describe --tags)" >> $GITHUB_ENV
+
+    - name: Update badge
+      run: |
+        sed -i "s/old-version/${{ env.TAG_VERSION }}/g" README.md
+
+    - name: Commit and Push
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -am "Update badge version to ${{ env.TAG_VERSION }}"
+        git push
